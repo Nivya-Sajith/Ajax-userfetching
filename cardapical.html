@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1 class="text-center text-success  ">
+  User Details
+  </h1>  
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4 " id="list1" >
+        
+
+    </div>
+    <div class="col-4"></div>
+  </div>
+  <script>
+    // AJAX API CALL
+    // 1 create an XMLHttpRequest object
+    const request= new XMLHttpRequest();
+    // 2 Connect or API call
+    request.open('get','https://jsonplaceholder.typicode.com/users')
+    console.log(request.readyState);
+
+    // 3 Send
+    request.send();
+    console.log(request.readyState);
+    // 4 set onreadystatechange
+request.onreadystatechange=()=>{
+    if(request.readyState==4)
+    {
+        if(request.status>199 && request.status<300)
+        {
+            console.log(request.responseText);
+            let arraytodo=JSON.parse(request.responseText)
+
+console.log(arraytodo);
+
+displayArray(arraytodo);
+
+        }
+        else
+        {
+            alert('Failed to connect to JASON placeholder')
+        }
+
+    }
+}
+    // 5 To display the array of data into the html page
+function displayArray(arraytodo)
+{
+    for(let list of arraytodo)
+
+    {
+        console.log(list.address.street);
+        htmldata=`<div class="card card-rounded m-3 ms-5 "style="width: 20rem;" id="list1">
+           
+           
+        <div class="card-header  text-danger text-center fs-3 ">
+    User Details- ${list.id}
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><b>Id:</b> ${list.id}</li>
+    <li class="list-group-item"><b>Name :</b> ${list.name}</li>
+    <li class="list-group-item"><b>UserName :</b> ${list.username}</li>
+
+    <li class="list-group-item"><b>Email :</b> ${list.email}</li>
+    <li class="list-group-item"><b>Address :</b><br>
+         street : ${list.address.street} <br>Suite: ${list.address.suite} <br> City :${list.address.city} <br> Zipcode: ${list.address.zipcode}</li>
+    <li class="list-group-item"><b>Location : </b><br> Lat: ${list.address.geo.lat}<br>Lng : ${list.address.geo.lng}</li>
+    <li class="list-group-item"><b>Phone :</b> ${list.phone}</li>
+    <li class="list-group-item"><b>Website :</b> ${list.website}</li>
+    <li class="list-group-item"><b>Company :</b><br>
+        <b>Name:</b> ${list.company.name}<br>
+        <b>CatchPhase:</b> ${list.company.catchPhrase} <br>
+       <b>BS:</b> ${list.company.bs}</li>
+
+  </ul></div>`
+    document.getElementById('list1').innerHTML+=htmldata
+    }
+}
+  </script>
+</body>
+</html>
